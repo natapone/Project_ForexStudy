@@ -17,10 +17,12 @@ model_file_type = "RData"
 
 model_improve_3 <- function(data) {
     modelFit = forex_train_model(data, train_method="M5")
+    return (modelFit)
 }
 
 model_improve_2 <- function(data) {
     modelFit = forex_train_model(data, train_method="svmPoly")
+    return (modelFit)
 }
 
 model_improve_1 <- function(data) {
@@ -30,8 +32,10 @@ model_improve_1 <- function(data) {
     d1 = data[,!(names(data) %in% remove)]
     
     modelFit = forex_train_model(d1)
-#     return (modelFit)
+    return (modelFit)
 }
+
+
 
 forex_train_model <- function(data, train_test_ratio = 0.6, seed = 1234, train_method="glm") {
     set.seed(seed)
@@ -49,6 +53,9 @@ forex_train_model <- function(data, train_test_ratio = 0.6, seed = 1234, train_m
     matrix = forex_test_model(modelFit, training, testing)
     print(matrix)
     
+    # plot predition result
+    plot_predict_result_vs_test_set(modelFit, training, testing)
+
     return (modelFit)
 }
 
@@ -70,6 +77,46 @@ forex_test_model <- function(modelFit, training, testing) {
     
     confusionMatrix(pr,pt)
     
+}
+
+# Measure accuracy from relationship between prediction result and test set
+plot_predict_result_vs_test_set <- function(modelFit, training, testing) {
+    
+    predictions <- predict(modelFit,newdata=testing)
+    
+    pr = predictions
+    pt = testing$ROR
+    
+    file_name = "images/predict_result_vs_test_set"
+    file_name = paste(file_name, modelFit$method, sep="_")
+    file_name = paste(file_name, "png", sep=".")
+    
+    message("Save: ", file_name)
+    png(file_name, width = 800, height = 800)
+    
+    data = data.frame(
+            "prediction" = pr,
+            "actual" = pt
+        )
+    
+    p_min = -0.005
+    p_max = 0.005
+    qq <- qplot(prediction,actual,data=data,
+                xlim = c(p_min, p_max),
+                ylim = c(p_min, p_max),
+                xlab = "Predicted rate of return",
+                ylab = "Actual rate of return"
+            ) +
+            geom_smooth(
+                method='lm', formula=y~x) +
+            geom_abline(intercept=0,slope=1,color="red")
+    
+# qq = ggplot(data, aes(x=prediction, y=actual)) +
+#     geom_point(size=5) +    # Use hollow circles
+#     geom_smooth(method=lm) + coord_fixed()
+    
+    print(qq)
+    dev.off()
 }
 
 plot_predictors <- function(data) {
@@ -117,6 +164,33 @@ plot_simplify <- function(data, path ="images") {
         print(qq)
         dev.off()
     }
+}
+
+plot_non_linear <- function(data, path ="images") {
+    
+    predictor_name = colnames(data)
+    # remove Rate of return
+    remove = c ("ROR")
+    predictor_names = predictor_name [! predictor_name %in% remove]
+    
+    # loop plot predictors
+    for (idx in 1:length(predictor_names)) {
+        
+        p_name = predictor_names[idx]
+        file_name = paste("plot_non_linear", p_name, sep = "_")
+        file_name = paste(file_name, "png", sep = ".")
+        file_name = paste(path, file_name, sep = "/")
+        
+        message("Save: ", file_name)
+        png(file_name, width = 800, height = 400)
+        
+        qq <- qplot(data$ROR,data[,idx],data=data) +
+        geom_smooth(method='auto' )
+        
+        print(qq)
+        dev.off()
+    }
+    
 }
 
 get_caret_train_set <- function(directory, symbol, timeframe, period, n_period_forecast=7) {
