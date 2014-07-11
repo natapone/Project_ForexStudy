@@ -41,22 +41,17 @@ We decide to use regression model because this study aims to forecast rate of re
 Amount of transaction for test and train is 6000 between 2014.06.03 to 2014.06.10. We split 60/40 for training/testing following rule of thumb.
 
 ### 3) Analyse features
-
-`source("forex_study.R")`
->    data=get_caret_train_set("data/forex", "EURUSDe", "M1", 10000, n_period_forecast=15)
-    plot_predictors(data)
-```
-
-Here's an example:
+The model uses indicator values as its feature. We plot all features against each others too 
 
 ```
-function test() {
-  console.log("notice the blank line before this function?");
-}
+# Prepare raw data
+source("forex_study.R")`
+data=get_caret_train_set("data/forex", "EURUSDe", "M1", 10000, n_period_forecast=15)
 ```
+
 
 #### Plotting features
-![GitHub Logo](images/plot_predictors.png)
+![GitHub Logo](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_predictors.png)
 
 #### Simplify plot
 
