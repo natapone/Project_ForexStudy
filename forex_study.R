@@ -28,16 +28,16 @@ model_improve_2 <- function(data) {
 model_improve_1 <- function(data) {
     
     # remove no information data (ADX)
-    remove <- c("ADX")
+    remove <- c("ADX", "MFI", "BBAND")
     d1 = data[,!(names(data) %in% remove)]
     
-    modelFit = forex_train_model(d1)
+    modelFit = forex_train_model(d1, name_ext="improve1")
     return (modelFit)
 }
 
 
 
-forex_train_model <- function(data, train_test_ratio = 0.6, seed = 1234, train_method="glm") {
+forex_train_model <- function(data, train_test_ratio = 0.6, seed = 1234, train_method="glm", name_ext="") {
     set.seed(seed)
 #     print(head(data))
     inTrain <- createDataPartition(y=data$ROR, p=train_test_ratio, list=FALSE)
@@ -52,9 +52,10 @@ forex_train_model <- function(data, train_test_ratio = 0.6, seed = 1234, train_m
 #modelFit
     matrix = forex_test_model(modelFit, training, testing)
     print(matrix)
+    message("===========")
     
     # plot predition result
-    plot_predict_result_vs_test_set(modelFit, training, testing)
+    plot_predict_result_vs_test_set(modelFit, training, testing, name_ext=name_ext)
 
     return (modelFit)
 }
@@ -80,7 +81,7 @@ forex_test_model <- function(modelFit, training, testing) {
 }
 
 # Measure accuracy from relationship between prediction result and test set
-plot_predict_result_vs_test_set <- function(modelFit, training, testing) {
+plot_predict_result_vs_test_set <- function(modelFit, training, testing, name_ext="") {
     
     predictions <- predict(modelFit,newdata=testing)
     
@@ -89,6 +90,9 @@ plot_predict_result_vs_test_set <- function(modelFit, training, testing) {
     
     file_name = "images/predict_result_vs_test_set"
     file_name = paste(file_name, modelFit$method, sep="_")
+    if( nchar(name_ext) > 0 ) {
+        file_name = paste(file_name, name_ext, sep="_")
+    }
     file_name = paste(file_name, "png", sep=".")
     
     message("Save: ", file_name)

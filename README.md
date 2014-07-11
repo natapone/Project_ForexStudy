@@ -49,22 +49,93 @@ source("forex_study.R")`
 data=get_caret_train_set("data/forex", "EURUSDe", "M1", 10000, n_period_forecast=15)
 ```
 
-
 #### Plotting features
+https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_predictors.png
 ![GitHub Logo](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_predictors.png)
+
+Focus on top rows, Rate of return (ROR) is plotted as **y**. We can roughly see that RSI, MFI and BBAND have similar relationship with ROR. MACD gathers around center , lower right and top left. ADX doesn't give any clue.
 
 #### Simplify plot
 
-## Machine learning
+Plots are simplify as Boxplot to easily determine if there is a relationship between indicator and rate of return or not. To Simplify the plot, ROR is grouped in to 6 levels and linear regression line is drew on them to indicate how does indicator response to reate of return.
 
+#### RSI
+![Simplify plot RSI](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_simplify_RSI.png)
+
+#### ADX
+![Simplify plot ADX](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_simplify_ADX.png)
+
+#### MACD
+![Simplify plot MACD](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_simplify_MACD.png)
+
+#### MFI
+![Simplify plot MFI](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_simplify_MFI.png)
+
+#### BBAND
+![Simplify plot BBAND](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_simplify_BBAND.png)
+
+Now we can verify that ADX give no information about rate of return.
+
+## Machine learning
+We choose generalized linear model (GLM) because it is flexible generalization for ordinary linear regression.
 
 ### Training
-Training glm
+```
+forex_train_model(data)
+```
+**Result**
+```
+Generalized Linear Model 
+
+3552 samples
+   5 predictors
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+
+Summary of sample sizes: 3552, 3552, 3552, 3552, 3552, 3552, ... 
+
+Resampling results
+
+  RMSE      Rsquared  RMSE SD   Rsquared SD
+  0.000222  0.708     1.38e-05  0.0315     
+
+ 
+Confusion Matrix and Statistics
+
+          Reference
+Prediction   -1    1
+        -1 1015  200
+        1   230  920
+                                         
+               Accuracy : 0.8182         
+                 95% CI : (0.802, 0.8335)
+    No Information Rate : 0.5264         
+    P-Value [Acc > NIR] : <2e-16         
+                                         
+                  Kappa : 0.6358         
+ Mcnemar's Test P-Value : 0.162          
+                                         
+            Sensitivity : 0.8153         
+            Specificity : 0.8214         
+         Pos Pred Value : 0.8354         
+         Neg Pred Value : 0.8000         
+             Prevalence : 0.5264         
+         Detection Rate : 0.4292         
+   Detection Prevalence : 0.5137         
+      Balanced Accuracy : 0.8183         
+                                         
+       'Positive' Class : -1    
+```
 
 ### Testing
-Testing 
->0
-<= 0
+RMSE number is good for comparing model. but it doesn't give any picture of how well it predict. We interprete the result by;
+
+* If rate of return > 0, count as **PROFIT (1)**
+
+* If rate of return <= 0, count as **LOSE (-1)**
+
+And plot confusion matrix to visualization of the performance of an algorithm.
 
 ## Improvement
 not linear
