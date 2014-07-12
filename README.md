@@ -315,7 +315,7 @@ There is an improvement point from MACD scatter plot. MACD vs ROR seem to group 
 *Scatter plot MACD*
 ![Scatter plot MACD vs rate of return](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_non_linear_MACD.png)
 
-We choose ![Regression Trees Model](http://en.wikipedia.org/wiki/Regression_tree) which is Prediction trees that return regression result. It use the tree to represent the recursive partition.
+We choose [Regression Trees Model](http://en.wikipedia.org/wiki/Regression_tree) which is Prediction trees that return regression result. It use the tree to represent the recursive partition.
 
 *Execute R code*
 ```
