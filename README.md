@@ -213,12 +213,103 @@ Prediction   -1    1
 
 The result shows that RMSE is slightly increase but accuracy is about 2% increase even we remove three indicators. We can use only RSI and MACD to build the model without decrease its prediction power.
 
-### Improvement2: not linear model
+### Improvement2: Non linear model
+Take a look at RSI vs ROR closely, we can see that the relationship is not linear. We plot regression line again with non-linear smoothing technique.
 
-Train with different algorithm
+*Plot non-linear RSI*
+![Scatter plot RSI vs rate of return, lowess smoothing](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/predict_result_vs_test_set_glm_improve1.png)
 
-SVM
+We use [svmPoly](http://en.wikipedia.org/wiki/Polynomial_kernel) or Support Vector Machines with Polynomial Kernel which is non linear model. 
 
+*Execute R code*
+```
+model_improve_1(d1)
+```
+
+*Measure RMSE of svmPoly*
+```
+Support Vector Machines with Polynomial Kernel
+
+3552 samples
+   5 predictors
+
+No pre-processing
+Resampling: Bootstrapped (25 reps)
+
+Summary of sample sizes: 3552, 3552, 3552, 3552, 3552, 3552, ...
+
+Resampling results across tuning parameters:
+
+  degree  scale  C     RMSE      Rsquared  RMSE SD   Rsquared SD
+  1       0.001  0.25  3e-04     0.629     2.19e-05  0.0258    
+  1       0.001  0.5   0.000274  0.667     2.02e-05  0.029     
+  1       0.001  1     0.000253  0.685     1.85e-05  0.0322    
+  1       0.01   0.25  0.000238  0.692     1.71e-05  0.0348    
+  1       0.01   0.5   0.000234  0.693     1.6e-05   0.036     
+  1       0.01   1     0.000232  0.693     1.58e-05  0.0367    
+  1       0.1    0.25  0.000231  0.693     1.56e-05  0.0374    
+  1       0.1    0.5   0.00023   0.693     1.56e-05  0.0376    
+  1       0.1    1     0.00023   0.693     1.56e-05  0.0377    
+  2       0.001  0.25  0.000273  0.668     2.02e-05  0.029     
+  2       0.001  0.5   0.000253  0.686     1.85e-05  0.0321    
+  2       0.001  1     0.00024   0.692     1.75e-05  0.0344    
+  2       0.01   0.25  0.00023   0.701     1.67e-05  0.0373    
+  2       0.01   0.5   0.000228  0.702     1.62e-05  0.0375    
+  2       0.01   1     0.000227  0.702     1.63e-05  0.0382    
+  2       0.1    0.25  0.000225  0.703     1.75e-05  0.0397    
+  2       0.1    0.5   0.000225  0.703     1.77e-05  0.0398    
+  2       0.1    1     0.000225  0.703     1.79e-05  0.0401    
+  3       0.001  0.25  0.00026   0.681     1.91e-05  0.0309    
+  3       0.001  0.5   0.000244  0.691     1.76e-05  0.0335    
+  3       0.001  1     0.000236  0.695     1.69e-05  0.0353    
+  3       0.01   0.25  0.000223  0.712     1.62e-05  0.037     
+  3       0.01   0.5   0.00022   0.716     1.59e-05  0.0368    
+  3       0.01   1     0.000218  0.721     1.6e-05   0.0359    
+  3       0.1    0.25  0.000217  0.724     2.49e-05  0.0449    
+  3       0.1    0.5   0.000219  0.72      2.82e-05  0.0445    
+  3       0.1    1     0.000221  0.717     3.01e-05  0.0436    
+
+RMSE was used to select the optimal model using  the smallest value.
+The final values used for the model were degree = 3, scale = 0.1 and C = 0.25.
+
+The optimal RMSE = 0.000218
+```
+
+*Measure accuracy of svmPoly*
+```
+Confusion Matrix and Statistics
+
+          Reference
+Prediction   -1    1
+        -1 1043  152
+        1   202  968
+                                         
+               Accuracy : 0.8503         
+                 95% CI : (0.8353, 0.8645)
+    No Information Rate : 0.5264         
+    P-Value [Acc > NIR] : < 2.2e-16      
+                                         
+                  Kappa : 0.7005         
+ Mcnemar's Test P-Value : 0.009206       
+                                         
+            Sensitivity : 0.8378         
+            Specificity : 0.8643         
+         Pos Pred Value : 0.8728         
+         Neg Pred Value : 0.8274         
+             Prevalence : 0.5264         
+         Detection Rate : 0.4410         
+   Detection Prevalence : 0.5053         
+      Balanced Accuracy : 0.8510         
+                                         
+       'Positive' Class : -1
+```
+
+*Prediction result vs test set of svmPoly*
+![prediction result vs test set](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/predict_result_vs_test_set_svmPoly.png)
+
+Changing model to non-linear improves 5% accuracy but slope of prediction result and actual is slightly worse.
+
+### Improvement3: Partition data
 M5 = Model Tree
 
 regression trees Model
