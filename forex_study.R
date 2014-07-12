@@ -3,7 +3,8 @@
 # data=get_caret_train_set("data/forex", "EURUSDe", "M1", 10000, n_period_forecast=15)
 # plot_predictors(data)
 # plot_simplify(data)
-# m = forex_train_model(data)
+# m  = forex_train_model(data)
+# d1 = model_improve_1(data)
 
 library(caret)
 library("ggplot2")
@@ -32,10 +33,8 @@ model_improve_1 <- function(data) {
     d1 = data[,!(names(data) %in% remove)]
     
     modelFit = forex_train_model(d1, name_ext="improve1")
-    return (modelFit)
+    return (d1)
 }
-
-
 
 forex_train_model <- function(data, train_test_ratio = 0.6, seed = 1234, train_method="glm", name_ext="") {
     set.seed(seed)

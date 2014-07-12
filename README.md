@@ -43,6 +43,7 @@ Amount of transaction for test and train is 6000 between 2014.06.03 to 2014.06.1
 ### 3) Analyse features
 The model uses indicator values as its feature. We plot all features against each others too 
 
+*Execute R code*
 ```
 # Prepare raw data
 source("forex_study.R")`
@@ -80,10 +81,12 @@ Now we can verify that ADX give no information about rate of return.
 We choose generalized linear model (GLM) because it is flexible generalization for ordinary linear regression.
 
 ### Training
+*Execute R code*
 ```
 forex_train_model(data)
 ```
-**Result**
+**Result of GLM training**
+*Measure GLM RMSE*
 ```
 Generalized Linear Model 
 
@@ -100,7 +103,19 @@ Resampling results
   RMSE      Rsquared  RMSE SD   Rsquared SD
   0.000222  0.708     1.38e-05  0.0315     
 
- 
+```
+
+### Testing
+RMSE number is good for comparing model. but it doesn't give any picture of how well it predict. We interprete the result by;
+
+* If rate of return > 0, count as **PROFIT (1)**
+
+* If rate of return <= 0, count as **LOSE (-1)**
+
+And plot confusion matrix to visualization of the performance of an algorithm.
+
+*Measure GLM accuracy*
+```
 Confusion Matrix and Statistics
 
           Reference
@@ -127,24 +142,89 @@ Prediction   -1    1
                                          
        'Positive' Class : -1    
 ```
+GLM model accuracy from estimation above is 81.8% which is quite high. But there is a room for improvement
 
-### Testing
-RMSE number is good for comparing model. but it doesn't give any picture of how well it predict. We interprete the result by;
+#### Visualize prediction result
+We plot prediction result against actual rate of return to show how effective the algorithm is. The diagonal line(red) is ideal condition, dot closer to the line is preferred. Linear regression line(blue) of the plot shows relationship between prediction and actual. Blue line should be on red line in ideal case.
 
-* If rate of return > 0, count as **PROFIT (1)**
-
-* If rate of return <= 0, count as **LOSE (-1)**
-
-And plot confusion matrix to visualization of the performance of an algorithm.
+*Prediction result vs test set of GLM*
+![prediction result vs test set](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/predict_result_vs_test_set_glm.png)
 
 ## Improvement
-not linear
+We analyse in further detail to optimize the model.
+
+### Improvement1: remove non-information input
+Simplify plots show that ADX give no relationship to rate od return. RSI, MFI and BBAND return similar pattern. We can remove some indicators to keep model as simple as possible. We rebuild model again with RSI and MACD then look at the result.
+
+*Execute R code*
+```
+d1 = model_improve_1(data)
+```
+
+*Measure RMSE of GLM improvement*
+```
+Generalized Linear Model 
+
+3552 samples
+   2 predictors
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+
+Summary of sample sizes: 3552, 3552, 3552, 3552, 3552, 3552, ... 
+
+Resampling results
+
+  RMSE      Rsquared  RMSE SD   Rsquared SD
+  0.000224  0.7       1.41e-05  0.0312     
+```
+
+*Measure accuracy*
+``` 
+Confusion Matrix and Statistics
+
+          Reference
+Prediction   -1    1
+        -1 1021  156
+        1   224  964
+                                          
+               Accuracy : 0.8393          
+                 95% CI : (0.8239, 0.8539)
+    No Information Rate : 0.5264          
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.6787          
+ Mcnemar's Test P-Value : 0.0005881       
+                                          
+            Sensitivity : 0.8201          
+            Specificity : 0.8607          
+         Pos Pred Value : 0.8675          
+         Neg Pred Value : 0.8114          
+             Prevalence : 0.5264          
+         Detection Rate : 0.4317          
+   Detection Prevalence : 0.4977          
+      Balanced Accuracy : 0.8404          
+                                          
+       'Positive' Class : -1  
+```
+
+*Prediction result vs test set of GLM improvment*
+![prediction result vs test set](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/predict_result_vs_test_set_glm_improve1.png)
+
+The result shows that RMSE is slightly increase but accuracy is about 2% increase even we remove three indicators. We can use only RSI and MACD to build the model without decrease its prediction power.
+
+### Improvement2: not linear model
 
 Train with different algorithm
 
 SVM
 
-M5
+M5 = Model Tree
+
+regression trees Model
+http://en.wikipedia.org/wiki/Regression_tree
+
+Prediction trees use the tree to represent the recursive partition.
 
 ## Conclusion
 Self fullfil prediction
