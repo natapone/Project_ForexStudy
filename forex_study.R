@@ -5,6 +5,8 @@
 # plot_simplify(data)
 # m  = forex_train_model(data)
 # d1 = model_improve_1(data)
+# model_improve_2(d1)
+# model_improve_3(d1)
 
 library(caret)
 library("ggplot2")

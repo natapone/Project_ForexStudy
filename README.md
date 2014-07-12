@@ -217,62 +217,62 @@ The result shows that RMSE is slightly increase but accuracy is about 2% increas
 Take a look at RSI vs ROR closely, we can see that the relationship is not linear. We plot regression line again with non-linear smoothing technique.
 
 *Plot non-linear RSI*
-![Scatter plot RSI vs rate of return, lowess smoothing](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/predict_result_vs_test_set_glm_improve1.png)
+![Scatter plot RSI vs rate of return, lowess smoothing](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_non_linear_RSI.png)
 
 We use [svmPoly](http://en.wikipedia.org/wiki/Polynomial_kernel) or Support Vector Machines with Polynomial Kernel which is non linear model. 
 
 *Execute R code*
 ```
-model_improve_1(d1)
+model_improve_2(d1)
 ```
 
 *Measure RMSE of svmPoly*
 ```
-Support Vector Machines with Polynomial Kernel
+Support Vector Machines with Polynomial Kernel 
 
 3552 samples
-   5 predictors
+   2 predictors
 
 No pre-processing
-Resampling: Bootstrapped (25 reps)
+Resampling: Bootstrapped (25 reps) 
 
-Summary of sample sizes: 3552, 3552, 3552, 3552, 3552, 3552, ...
+Summary of sample sizes: 3552, 3552, 3552, 3552, 3552, 3552, ... 
 
 Resampling results across tuning parameters:
 
   degree  scale  C     RMSE      Rsquared  RMSE SD   Rsquared SD
-  1       0.001  0.25  3e-04     0.629     2.19e-05  0.0258    
-  1       0.001  0.5   0.000274  0.667     2.02e-05  0.029     
-  1       0.001  1     0.000253  0.685     1.85e-05  0.0322    
-  1       0.01   0.25  0.000238  0.692     1.71e-05  0.0348    
-  1       0.01   0.5   0.000234  0.693     1.6e-05   0.036     
-  1       0.01   1     0.000232  0.693     1.58e-05  0.0367    
-  1       0.1    0.25  0.000231  0.693     1.56e-05  0.0374    
-  1       0.1    0.5   0.00023   0.693     1.56e-05  0.0376    
-  1       0.1    1     0.00023   0.693     1.56e-05  0.0377    
-  2       0.001  0.25  0.000273  0.668     2.02e-05  0.029     
-  2       0.001  0.5   0.000253  0.686     1.85e-05  0.0321    
-  2       0.001  1     0.00024   0.692     1.75e-05  0.0344    
-  2       0.01   0.25  0.00023   0.701     1.67e-05  0.0373    
-  2       0.01   0.5   0.000228  0.702     1.62e-05  0.0375    
-  2       0.01   1     0.000227  0.702     1.63e-05  0.0382    
-  2       0.1    0.25  0.000225  0.703     1.75e-05  0.0397    
-  2       0.1    0.5   0.000225  0.703     1.77e-05  0.0398    
-  2       0.1    1     0.000225  0.703     1.79e-05  0.0401    
-  3       0.001  0.25  0.00026   0.681     1.91e-05  0.0309    
-  3       0.001  0.5   0.000244  0.691     1.76e-05  0.0335    
-  3       0.001  1     0.000236  0.695     1.69e-05  0.0353    
-  3       0.01   0.25  0.000223  0.712     1.62e-05  0.037     
-  3       0.01   0.5   0.00022   0.716     1.59e-05  0.0368    
-  3       0.01   1     0.000218  0.721     1.6e-05   0.0359    
-  3       0.1    0.25  0.000217  0.724     2.49e-05  0.0449    
-  3       0.1    0.5   0.000219  0.72      2.82e-05  0.0445    
-  3       0.1    1     0.000221  0.717     3.01e-05  0.0436    
+  1       0.001  0.25  0.000297  0.693     2.13e-05  0.0293     
+  1       0.001  0.5   0.000265  0.701     1.91e-05  0.0319     
+  1       0.001  1     0.000247  0.699     1.78e-05  0.034      
+  1       0.01   0.25  0.000237  0.695     1.64e-05  0.0356     
+  1       0.01   0.5   0.000234  0.693     1.58e-05  0.0361     
+  1       0.01   1     0.000233  0.692     1.57e-05  0.0364     
+  1       0.1    0.25  0.000232  0.691     1.56e-05  0.0367     
+  1       0.1    0.5   0.000232  0.691     1.57e-05  0.0368     
+  1       0.1    1     0.000232  0.69      1.56e-05  0.0368     
+  2       0.001  0.25  0.000265  0.701     1.92e-05  0.0319     
+  2       0.001  0.5   0.000246  0.7       1.78e-05  0.034      
+  2       0.001  1     0.000238  0.697     1.68e-05  0.0355     
+  2       0.01   0.25  0.000232  0.697     1.65e-05  0.0377     
+  2       0.01   0.5   0.000231  0.695     1.62e-05  0.0382     
+  2       0.01   1     0.00023   0.693     1.61e-05  0.0388     
+  2       0.1    0.25  0.000231  0.69      1.65e-05  0.0397     
+  2       0.1    0.5   0.000231  0.69      1.65e-05  0.0397     
+  2       0.1    1     0.000231  0.69      1.64e-05  0.0396     
+  3       0.001  0.25  0.000253  0.701     1.82e-05  0.0332     
+  3       0.001  0.5   0.00024   0.699     1.72e-05  0.0349     
+  3       0.001  1     0.000235  0.696     1.64e-05  0.036      
+  3       0.01   0.25  0.000226  0.703     1.6e-05   0.0381     
+  3       0.01   0.5   0.000225  0.705     1.58e-05  0.0377     
+  3       0.01   1     0.000222  0.709     1.54e-05  0.0374     
+  3       0.1    0.25  0.000214  0.728     2.05e-05  0.0453     
+  3       0.1    0.5   0.000215  0.727     2.1e-05   0.0469     
+  3       0.1    1     0.000215  0.727     2.1e-05   0.0465     
 
 RMSE was used to select the optimal model using  the smallest value.
 The final values used for the model were degree = 3, scale = 0.1 and C = 0.25.
 
-The optimal RMSE = 0.000218
+The optimal RMSE = 0.000214
 ```
 
 *Measure accuracy of svmPoly*
@@ -281,42 +281,111 @@ Confusion Matrix and Statistics
 
           Reference
 Prediction   -1    1
-        -1 1043  152
-        1   202  968
-                                         
-               Accuracy : 0.8503         
-                 95% CI : (0.8353, 0.8645)
-    No Information Rate : 0.5264         
-    P-Value [Acc > NIR] : < 2.2e-16      
-                                         
-                  Kappa : 0.7005         
- Mcnemar's Test P-Value : 0.009206       
-                                         
-            Sensitivity : 0.8378         
-            Specificity : 0.8643         
-         Pos Pred Value : 0.8728         
-         Neg Pred Value : 0.8274         
-             Prevalence : 0.5264         
-         Detection Rate : 0.4410         
-   Detection Prevalence : 0.5053         
-      Balanced Accuracy : 0.8510         
-                                         
-       'Positive' Class : -1
+        -1 1036  168
+        1   209  952
+                                          
+               Accuracy : 0.8406          
+                 95% CI : (0.8252, 0.8551)
+    No Information Rate : 0.5264          
+    P-Value [Acc > NIR] : < 2e-16         
+                                          
+                  Kappa : 0.6809          
+ Mcnemar's Test P-Value : 0.03939         
+                                          
+            Sensitivity : 0.8321          
+            Specificity : 0.8500          
+         Pos Pred Value : 0.8605          
+         Neg Pred Value : 0.8200          
+             Prevalence : 0.5264          
+         Detection Rate : 0.4381          
+   Detection Prevalence : 0.5091          
+      Balanced Accuracy : 0.8411          
+                                          
+       'Positive' Class : -1 
 ```
 
 *Prediction result vs test set of svmPoly*
 ![prediction result vs test set](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/predict_result_vs_test_set_svmPoly.png)
 
-Changing model to non-linear improves 5% accuracy but slope of prediction result and actual is slightly worse.
+Changing model to non-linear improves 2% accuracy but slope of prediction result and actual is slightly worse.
 
 ### Improvement3: Partition data
-M5 = Model Tree
+There is an improvement point from MACD scatter plot. MACD vs ROR seem to group into small cluster with linear relationship.
 
-regression trees Model
-http://en.wikipedia.org/wiki/Regression_tree
+*Scatter plot MACD*
+![Scatter plot MACD vs rate of return](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/plot_non_linear_MACD.png)
 
-Prediction trees use the tree to represent the recursive partition.
+We choose ![Regression Trees Model](http://en.wikipedia.org/wiki/Regression_tree) which is Prediction trees that return regression result. It use the tree to represent the recursive partition.
+
+*Execute R code*
+```
+model_improve_2(d1)
+```
+
+*Measure RMSE of M5*
+```
+Model Tree 
+
+3552 samples
+   2 predictors
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+
+Summary of sample sizes: 3552, 3552, 3552, 3552, 3552, 3552, ... 
+
+Resampling results across tuning parameters:
+
+  pruned  smoothed  rules  RMSE      Rsquared  RMSE SD   Rsquared SD
+  Yes     Yes       Yes    0.000209  0.741     1.66e-05  0.0317     
+  Yes     Yes       No     0.000206  0.748     1.55e-05  0.0335     
+  Yes     No        Yes    0.00021   0.739     1.67e-05  0.0319     
+  Yes     No        No     0.00023   0.691     2.93e-05  0.0567     
+  No      Yes       Yes    0.000223  0.711     1.53e-05  0.0292     
+  No      Yes       No     0.000205  0.748     1.5e-05   0.0309     
+  No      No        Yes    0.000272  0.592     2.23e-05  0.0584     
+  No      No        No     0.000266  0.612     1.34e-05  0.0405     
+
+RMSE was used to select the optimal model using  the smallest value.
+The final values used for the model were pruned = No, smoothed = Yes and rules = No.
+
+The optimal RMSE = 0.000205
+```
+
+*Measure accuracy of M5*
+```
+Confusion Matrix and Statistics
+
+          Reference
+Prediction   -1    1
+        -1 1020  167
+        1   225  953
+                                         
+               Accuracy : 0.8342         
+                 95% CI : (0.8186, 0.849)
+    No Information Rate : 0.5264         
+    P-Value [Acc > NIR] : < 2e-16        
+                                         
+                  Kappa : 0.6684         
+ Mcnemar's Test P-Value : 0.00399        
+                                         
+            Sensitivity : 0.8193         
+            Specificity : 0.8509         
+         Pos Pred Value : 0.8593         
+         Neg Pred Value : 0.8090         
+             Prevalence : 0.5264         
+         Detection Rate : 0.4313         
+   Detection Prevalence : 0.5019         
+      Balanced Accuracy : 0.8351         
+                                         
+       'Positive' Class : -1
+```
+
+*Prediction result vs test set of M5*
+![prediction result vs test set](https://raw.githubusercontent.com/natapone/Project_ForexStudy/master/Images/predict_result_vs_test_set_M5.png)
+
+RMSE is improve but accuracy is slightly decreased. The most interesting result is slope of prediction - actual relationship is on the ideal line.
 
 ## Conclusion
-Self fullfil prediction
+There are three dimensions that we use to determine the model performance which are RMSE, accuracy and relationship slope. Only way to proof is through the real trade. Next phase we'll construct automate trading bot with these algorithms to demonstrate how they response to the real situation.
 
